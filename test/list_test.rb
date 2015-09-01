@@ -12,6 +12,7 @@ class ListTest < Minitest::Test
   def test_list_accepts_node_as_head
     node = Node.new('HEAD')
     list = List.new(node)
+
     assert_equal node, list.head
   end
 
@@ -20,6 +21,9 @@ class ListTest < Minitest::Test
     node_a = Node.new('a')
     list.head = node_a
 
-    assert list.includes?('a')
+    node_b = Node.new('b')
+    node_a.next_node = node_b
+    
+    assert list.includes?('b')
   end
 end

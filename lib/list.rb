@@ -10,7 +10,12 @@ class List
   end
 
   def includes?(data)
-    true if head.data = data
+    node = head
+    loop do
+      return true if node.data = data
+      next_node = node.next_node
+      break if next_node.nil?
+    end
   end
 end
 
