@@ -97,4 +97,73 @@ class ListTest < Minitest::Test
 
     assert_equal node_a, new_node.next_node
   end
+
+  def test_pop_returns_head_with_one_node
+    node_a = Node.new
+    list = List.new(node_a)
+
+    new_node = Node.new
+    list.pop
+
+    refute list.head
+  end
+
+  def test_pop_returns_last_with_two_nodes
+    node_a = Node.new
+    node_b = Node.new
+    node_a.next_node = node_b
+
+    list = List.new(node_a)
+    assert_equal node_b, list.pop
+  end
+
+  def test_pop_returns_nil_with_empty_list
+    list = List.new
+    refute list.pop
+  end
+
+  def test_pop_returns_last_with_six_nodes
+    node_f = Node.new
+    node_e = Node.new('', node_f)
+    node_d = Node.new('', node_e)
+    node_c = Node.new('', node_d)
+    node_b = Node.new('', node_c)
+    node_a = Node.new('', node_b)
+
+    list = List.new(node_a)
+    assert_equal node_f, list.pop
+  end
+
+  def test_count_returns_zero_with_empty_list
+    list = List.new
+    assert_equal 0, list.count
+  end
+
+  def test_count_works_with_one_node
+    list = List.new(Node.new)
+    assert_equal 1, list.count
+  end
+
+  def test_count_works_with_two_nodes
+    node_a = Node.new
+    node_b = Node.new
+    node_a.next_node = node_b
+
+    list = List.new(node_a)
+
+    assert_equal 2, list.count
+  end
+
+  def test_count_works_with_six_nodes
+    node_f = Node.new
+    node_e = Node.new('', node_f)
+    node_d = Node.new('', node_e)
+    node_c = Node.new('', node_d)
+    node_b = Node.new('', node_c)
+    node_a = Node.new('', node_b)
+
+    list = List.new(node_a)
+
+    assert_equal 6, list.count
+  end
 end

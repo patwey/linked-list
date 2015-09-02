@@ -35,6 +35,40 @@ class List
       current_node = current_node.next_node
     end
   end
+
+  def pop
+    return if self.head.nil?
+    current_node = head
+    if current_node.next_node.nil?
+      self.head = nil
+      return current_node
+    else
+      previous_node = current_node
+      next_node = current_node.next_node
+    end
+
+    while current_node.next_node
+      previous_node = current_node
+      current_node = current_node.next_node
+    end
+
+    previous_node.next_node = nil
+    current_node
+  end
+
+  def count
+    return 0 if self.head.nil?
+    return 1 if self.head.next_node.nil?
+
+    count = 1
+    current_node = head
+
+    while current_node.next_node
+      current_node = current_node.next_node
+      count += 1
+    end
+    count
+  end
 end
 
 # Linked List
