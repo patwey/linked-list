@@ -5,11 +5,11 @@ require 'minitest'
 
 class NodeTest < Minitest::Test
   def test_next_node_defaults_to_nil
-    assert_equal nil, Node.new.next_node
+    assert_nil Node.new.next_node
   end
 
-  def test_data_defaults_to_empty_string
-    assert_equal '', Node.new.data
+  def test_data_defaults_to_nil
+    assert_nil Node.new.data
   end
 
   def test_node_accepts_number_as_data
