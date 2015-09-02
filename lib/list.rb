@@ -78,15 +78,47 @@ class List
     end
     current_node
   end
+
+  def find_by_index(index)
+    return if self.head.nil?
+    return self.head if index == 0
+    current_node = head
+    index.times do
+      if current_node.next_node
+        current_node = current_node.next_node
+      else
+        return
+      end
+    end
+    current_node
+  end
+
+  def find_by_value(value)
+    return if self.head.nil?
+    current_node = head
+
+    if current_node.data == value
+      return current_node
+    end
+
+    # add a next_node variable?
+    while current_node.next_node
+      if current_node.data == value
+        return current_node
+      elsif current_node.next_node.data == value
+        return current_node.next_node
+      else
+        current_node = current_node.next_node
+      end
+    end
+  end
+
 end
 
 # Linked List
-
-
-linked_list = List.new
-node_a = Node.new('a')
 node_b = Node.new('b')
+node_a = Node.new('a', node_b)
+list = List.new(node_a)
 
-linked_list.append(node_a)
-linked_list.head
-linked_list
+node_b
+list.find_by_value('b')

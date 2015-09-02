@@ -6,7 +6,7 @@ require 'node'
 
 class ListTest < Minitest::Test
   def test_head_defaults_to_nil
-    assert_equal nil, List.new.head
+    assert_nil List.new.head
   end
 
   def test_list_accepts_node_as_head
@@ -16,7 +16,7 @@ class ListTest < Minitest::Test
     assert_equal node, list.head
   end
 
-  def test_includes_returns_true_if_value_is_in_list
+  def test_includes_returns_true_if_value_in_list
     node_a = Node.new('a')
     list = List.new(node_a)
 
@@ -26,21 +26,21 @@ class ListTest < Minitest::Test
     assert list.includes?('b')
   end
 
-  def test_includes_returns_false_if_value_is_not_in_list
+  def test_includes_returns_false_if_value_not_in_list
     node_a = Node.new('a')
     list = List.new(node_a)
 
     refute list.includes?('b')
   end
 
-  def test_includes_returns_true_if_value_is_in_head
+  def test_includes_returns_true_if_value_in_head
     head_node = Node.new('a')
     list = List.new(head_node)
 
     assert list.includes?('a')
   end
 
-  def test_includes_returns_true_if_value_is_in_tail
+  def test_includes_returns_true_if_value_in_tail
     head_node = Node.new('head')
     list = List.new(head_node)
 
@@ -69,7 +69,7 @@ class ListTest < Minitest::Test
     assert_equal node_b, tail
   end
 
-  def test_prepend_sets_head_to_new_node_if_list_is_empty
+  def test_prepend_points_head_to_node_if_list_empty
     list = List.new
     node = Node.new
 
@@ -78,7 +78,7 @@ class ListTest < Minitest::Test
     assert_equal node, list.head
   end
 
-  def test_prepend_sets_head_to_new_node
+  def test_prepend_sets_head_to_new_node_if_list_has_head
     node_a = Node.new
     list = List.new(node_a)
 
@@ -88,7 +88,7 @@ class ListTest < Minitest::Test
     assert_equal new_node, list.head
   end
 
-  def test_prepend_links_new_node_to_prev_head
+  def test_prepend_links_new_node_to_previous_head
     node_a = Node.new
     list = List.new(node_a)
 
@@ -105,7 +105,7 @@ class ListTest < Minitest::Test
     new_node = Node.new
     list.pop
 
-    refute list.head
+    assert_nil list.head
   end
 
   def test_pop_returns_last_with_two_nodes
@@ -119,7 +119,7 @@ class ListTest < Minitest::Test
 
   def test_pop_returns_nil_with_empty_list
     list = List.new
-    refute list.pop
+    assert_nil list.pop
   end
 
   def test_pop_returns_last_with_six_nodes
@@ -134,17 +134,17 @@ class ListTest < Minitest::Test
     assert_equal node_f, list.pop
   end
 
-  def test_count_returns_zero_with_empty_list
+  def test_count_is_zero_with_empty_list
     list = List.new
     assert_equal 0, list.count
   end
 
-  def test_count_works_with_one_node
+  def test_count_counts_one_node
     list = List.new(Node.new)
     assert_equal 1, list.count
   end
 
-  def test_count_works_with_two_nodes
+  def test_count_counts_two_nodes
     node_a = Node.new
     node_b = Node.new
     node_a.next_node = node_b
@@ -154,7 +154,7 @@ class ListTest < Minitest::Test
     assert_equal 2, list.count
   end
 
-  def test_count_works_with_six_nodes
+  def test_count_counts_six_nodes
     node_f = Node.new
     node_e = Node.new('', node_f)
     node_d = Node.new('', node_e)
@@ -169,7 +169,7 @@ class ListTest < Minitest::Test
 
   def test_head_returns_nil_with_empty_list
     list = List.new
-    refute list.head
+    assert_nil list.head
   end
 
   def test_head_returns_first_node
@@ -181,7 +181,7 @@ class ListTest < Minitest::Test
 
   def test_tail_returns_nil_with_empty_list
     list = List.new
-    refute list.tail
+    assert_nil list.tail
   end
 
   def test_tail_returns_last_node_with_two_nodes
@@ -192,4 +192,85 @@ class ListTest < Minitest::Test
 
     assert_equal node_b, list.tail
   end
+
+  def test_find_by_index_returns_nil_with_empty_list
+    list = List.new
+
+    assert_nil list.find_by_index(0)
+  end
+
+  def test_find_by_index_nil_if_index_doesnt_exist
+    node = Node.new
+    list = List.new(node)
+
+    assert_nil list.find_by_index(1)
+  end
+
+  def test_find_by_index_zero_returns_head
+    node_a = Node.new
+    list = List.new(node_a)
+
+    assert_equal list.head, list.find_by_index(0)
+  end
+
+  def test_find_by_index_one_returns_second_node
+    node_b = Node.new
+    node_a = Node.new('', node_b)
+    list = List.new(node_a)
+
+    assert_equal node_b, list.find_by_index(1)
+  end
+
+  def test_find_by_index_five_returns_sixth_node
+    node_f = Node.new
+    node_e = Node.new('', node_f)
+    node_d = Node.new('', node_e)
+    node_c = Node.new('', node_d)
+    node_b = Node.new('', node_c)
+    node_a = Node.new('', node_b)
+
+    list = List.new(node_a)
+
+    assert_equal node_f, list.find_by_index(5)
+  end
+
+  def test_find_by_value_returns_nil_with_empty_list
+    list = List.new
+    assert_nil list.find_by_value('a')
+  end
+
+  def test_find_by_value_returns_nil_if_value_doesnt_exist
+    node_b = Node.new('b')
+    node_a = Node.new('a', node_b)
+
+    list = List.new
+
+    assert_nil list.find_by_value('c')
+  end
+
+  def test_find_by_value_returns_head_if_it_holds_value
+    node_a = Node.new('a')
+    list = List.new(node_a)
+
+    assert_equal node_a, list.find_by_value('a')
+  end
+
+  def test_find_by_value_returns_tail_if_it_holds_value
+    node_b = Node.new('b')
+    node_a = Node.new('a', node_b)
+    list = List.new(node_a)
+
+    assert_equal node_b, list.find_by_value('b')
+  end
+
+  def test_find_by_value_returns_first_node_with_value
+    node_b = Node.new('a')
+    node_a = Node.new('a', node_b)
+    list = List.new(node_a)
+
+    assert_equal node_a, list.find_by_value('a')
+  end
+
+  
+
 end
