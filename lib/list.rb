@@ -113,12 +113,49 @@ class List
     end
   end
 
+  def remove_by_index(index)
+    if index == 0
+      self.head = nil
+    elsif index == 1
+      previous_node = self.head
+      current_node = previous_node.next_node
+      previous_node.next_node = current_node.next_node
+    else
+      current_node = self.head.next_node
+      previous_node = head
+
+      (index - 1).times do
+        if current_node.next_node
+          previous_node = current_node
+          current_node = current_node.next_node
+        end
+      end
+      previous_node.next_node = current_node.next_node
+    end
+  end
+
+  def remove_by_value(value)
+    return if self.head.nil?
+    current_node = head
+    if current_node.data == value
+      next_node = current_node.next_node
+      self.head = next_node
+    else
+      if current_node.next_node
+        previous_node = current_node
+        current_node = current_node.next_node
+        while current_node.next_node
+          if current_node.data == value
+            next_node = current_node.next_node
+            previous_node.next_node = next_node
+            return
+          else
+            previous_node = current_node
+            current_node = current_node.next_node
+          end
+        end
+      end
+    end
+  end
+
 end
-
-# Linked List
-node_b = Node.new('b')
-node_a = Node.new('a', node_b)
-list = List.new(node_a)
-
-node_b
-list.find_by_value('b')

@@ -207,8 +207,8 @@ class ListTest < Minitest::Test
   end
 
   def test_find_by_index_zero_returns_head
-    node_a = Node.new
-    list = List.new(node_a)
+    node = Node.new
+    list = List.new(node)
 
     assert_equal list.head, list.find_by_index(0)
   end
@@ -271,6 +271,106 @@ class ListTest < Minitest::Test
     assert_equal node_a, list.find_by_value('a')
   end
 
-  
+  def test_remove_by_index_returns_nil_with_empty_list
+    list = List.new
+    assert_nil list.remove_by_index(0)
+  end
 
+  def test_remove_by_index_zero_removes_head
+    node = Node.new
+    list = List.new(node)
+
+    list.remove_by_index(0)
+
+    assert_nil list.head
+  end
+
+  def test_remove_by_index_one_removes_second_node
+    node_b = Node.new
+    node_a = Node.new('', node_b)
+    list = List.new(node_a)
+
+    list.remove_by_index(1)
+    node_a_link = node_a.next_node
+
+    assert_nil node_a_link
+  end
+
+  def test_remove_by_index_one_links_head_with_two
+    node_c = Node.new
+    node_b = Node.new('', node_c)
+    node_a = Node.new('', node_b)
+    list = List.new(node_a)
+
+    list.remove_by_index(1)
+    node_a_link = node_a.next_node
+
+    assert_equal node_c, node_a_link
+  end
+
+  def test_remove_by_index_two_links_one_with_three
+    node_d = Node.new
+    node_c = Node.new('', node_d)
+    node_b = Node.new('', node_c)
+    node_a = Node.new('', node_b)
+
+    list = List.new(node_a)
+
+    list.remove_by_index(2)
+    node_b_link = node_b.next_node
+
+    assert_equal node_d, node_b_link
+  end
+
+  def test_remove_by_index_four_links_node_three_with_five
+    node_f = Node.new
+    node_e = Node.new('', node_f)
+    node_d = Node.new('', node_e)
+    node_c = Node.new('', node_d)
+    node_b = Node.new('', node_c)
+    node_a = Node.new('', node_b)
+
+    list = List.new(node_a)
+
+    list.remove_by_index(4)
+    node_d_link = node_d.next_node
+
+    assert_equal node_f, node_d_link
+  end
+
+  def test_remove_by_value_returns_nil_with_empty_list
+    list = List.new
+    assert_nil list.remove_by_value('a')
+  end
+
+  def test_remove_by_value_removes_head_if_it_holds_value
+    node_a = Node.new('a')
+    list = List.new(node_a)
+
+    list.remove_by_value('a')
+
+    assert_nil list.head
+  end
+
+  def test_remove_by_value_returns_first_node_holding_value
+    node_b = Node.new('a')
+    node_a = Node.new('a', node_b)
+    list = List.new(node_a)
+
+    list.remove_by_value('a')
+
+    assert_equal node_b, list.head
+  end
+
+  def test_remove_by_value_links_adjecent_nodes
+    node_c = Node.new
+    node_b = Node.new('b', node_c)
+    node_a = Node.new('a', node_b)
+
+    list = List.new(node_a)
+    list.remove_by_value('b')
+    node_a_link = node_a.next_node
+
+    assert_equal node_c, node_a_link
+  end
 end
