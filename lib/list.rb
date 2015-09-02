@@ -69,6 +69,15 @@ class List
     end
     count
   end
+
+  def tail
+    return if self.head.nil?
+    current_node = head
+    while current_node.next_node
+      current_node = current_node.next_node
+    end
+    current_node
+  end
 end
 
 # Linked List

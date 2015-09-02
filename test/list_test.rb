@@ -88,7 +88,7 @@ class ListTest < Minitest::Test
     assert_equal new_node, list.head
   end
 
-  def test_prepend_links_new_node_to_old_head
+  def test_prepend_links_new_node_to_prev_head
     node_a = Node.new
     list = List.new(node_a)
 
@@ -165,5 +165,31 @@ class ListTest < Minitest::Test
     list = List.new(node_a)
 
     assert_equal 6, list.count
+  end
+
+  def test_head_returns_nil_with_empty_list
+    list = List.new
+    refute list.head
+  end
+
+  def test_head_returns_first_node
+    node = Node.new
+    list = List.new(node)
+
+    assert_equal node, list.head
+  end
+
+  def test_tail_returns_nil_with_empty_list
+    list = List.new
+    refute list.tail
+  end
+
+  def test_tail_returns_last_node_with_two_nodes
+    node_b = Node.new
+    node_a = Node.new('', node_b)
+
+    list = List.new(node_a)
+
+    assert_equal node_b, list.tail
   end
 end
