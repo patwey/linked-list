@@ -158,4 +158,49 @@ class List
     end
   end
 
+  def find_distance(node_a, node_b)
+    return if self.head.nil?
+    return 0 if node_a == node_b
+    current_node = head
+    includes_a = false
+    includes_b = false
+    while current_node.next_node
+      if current_node == node_a ||
+         current_node.next_node == node_a
+        includes_a = true
+      end
+      if current_node == node_b ||
+            current_node.next_node == node_b
+        includes_b = true
+      end
+      current_node = current_node.next_node
+    end
+
+    if includes_a && includes_b
+      distance = 0
+      current_node = head
+
+      while current_node != node_b
+        if current_node == node_a
+          distance += 1
+          current_node = current_node.next_node
+        else
+          current_node = current_node.next_node
+        end
+      end
+
+      if distance == 0
+        while current_node != node_a
+          if current_node == node_b
+            distance += 1
+            current_node = current_node.next_node
+          else
+            current_node = current_node.next_node
+          end
+        end
+      end
+    end
+    distance
+  end
+
 end

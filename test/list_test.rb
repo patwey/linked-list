@@ -373,4 +373,43 @@ class ListTest < Minitest::Test
 
     assert_equal node_c, node_a_link
   end
+
+  def test_find_distance_returns_nil_with_empty_list
+    list = List.new
+    node_a = Node.new
+    node_b = Node.new
+
+    assert_nil list.find_distance(node_a, node_b)
+  end
+
+  def test_find_distance_returns_nil_if_node_isnt_in_list
+    node_b = Node.new
+    node_a = Node.new('', node_b)
+    list = List.new(node_a)
+
+    assert_nil list.find_distance(node_a, Node.new)
+    assert_nil list.find_distance(Node.new, node_b)
+  end
+
+  def test_find_distance_returns_zero_if_passed_the_same_node
+    node_a = Node.new
+    list = List.new(node_a)
+    assert_equal 0, list.find_distance(node_a, node_a)
+  end
+
+  def test_find_distance_returns_distance_between_two_nodes
+    node_b = Node.new
+    node_a = Node.new('', node_b)
+    list = List.new(node_a)
+
+    assert_equal 1, list.find_distance(node_a, node_b)
+  end
+
+  def test_find_distance_returns_distance_if_nodes_are_reversed
+    node_b = Node.new
+    node_a = Node.new('', node_b)
+    list = List.new(node_a)
+
+    assert_equal 1, list.find_distance(node_b, node_a)
+  end
 end
