@@ -1,5 +1,3 @@
-$LOAD_PATH << __dir__ # delete this eventually
-
 require 'node'
 require 'minitest'
 

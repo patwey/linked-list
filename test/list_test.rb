@@ -1,5 +1,3 @@
-$LOAD_PATH << __dir__ # delete this eventually
-
 require 'minitest'
 require 'list'
 require 'node'
@@ -12,7 +10,6 @@ class ListTest < Minitest::Test
     @node_c = Node.new
     @node_d = Node.new
     @node_e = Node.new
-    @node_f = Node.new
   end
 
   def test_head_defaults_to_nil
